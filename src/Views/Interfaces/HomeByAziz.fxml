@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="926.0" prefWidth="1314.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Views.Controllers.HomeController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="New" />
+            <MenuItem mnemonicParsing="false" text="Open…" />
+            <Menu mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <MenuItem mnemonicParsing="false" text="Revert" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <AnchorPane fx:id="childrenHolder" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="975.0" prefWidth="1313.0" VBox.vgrow="ALWAYS">
+      <children>
+        <Label alignment="CENTER" layoutX="130.0" layoutY="177.0" style="&#10;" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+          <font>
+            <Font size="18.0" />
+          </font>
+        </Label>
+            <TextField fx:id="textSearch" layoutX="276.0" layoutY="26.0" prefHeight="40.0" prefWidth="685.0" />
+            <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="971.0" layoutY="27.0" onMouseClicked="#showBook" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/images/icons8-search-48.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="47.0" fitWidth="51.0" layoutX="1241.0" layoutY="18.0" onMouseClicked="#goToBasket" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/images/icons8-checkout-96.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="category" layoutX="1036.0" layoutY="23.0" text="Hello" textFill="#1e225e">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="category1" layoutX="1081.0" layoutY="23.0" text="User Name " textFill="#1e225e">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="21.0" fitWidth="21.0" layoutX="1124.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/images/icons8-expand-arrow-48.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="1036.0" layoutY="46.0" onMouseClicked="#goToAccountDetails" text="My Account " textFill="#1d225cd6">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="47.0" fitWidth="51.0" layoutX="1194.0" layoutY="19.0" onMouseClicked="#goToWishlist" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/images/icons8-love-96.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="80.0" fitWidth="262.0" layoutX="26.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/images/AppLogo.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="54.0" fitWidth="944.0" layoutX="224.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/images/pub1.jpg" />
+               </image>
+            </ImageView>
+            <Label layoutX="26.0" layoutY="200.0" text="Categories" textFill="#1d225cd6">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Line endX="-37.000030517578125" endY="-198.0" layoutX="185.0" layoutY="687.0" startX="-37.000030517578125" startY="-487.0" />
+            <ImageView fx:id="cover1" fitHeight="154.0" fitWidth="118.0" layoutX="280.0" layoutY="531.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/images/sommeilnoir.jpeg" />
+               </image>
+            </ImageView>
+            <Label fx:id="title1" layoutX="290.0" layoutY="690.0" text="Sommeil Noir" textAlignment="CENTER" textFill="#1e225e">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="author1" layoutX="290.0" layoutY="712.0" prefHeight="21.0" prefWidth="89.0" text="Antall" textAlignment="CENTER" textFill="#1e225e">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="290.0" layoutY="731.0" />
+            <Label layoutX="264.0" layoutY="731.0" text="Recommended  by " textFill="#726e6e" />
+            <Label fx:id="rate1" layoutX="368.0" layoutY="729.0" text="67% " textFill="RED">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="title2" layoutX="493.0" layoutY="690.0" text="Sommeil Noir" textAlignment="CENTER" textFill="#1e225e">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="459.0" layoutY="731.0" />
+            <Label fx:id="title3" layoutX="691.0" layoutY="692.0" text="Sommeil Noir" textAlignment="CENTER" textFill="#1e225e">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="649.0" layoutY="733.0" />
+            <Label fx:id="title4" layoutX="900.0" layoutY="692.0" text="Sommeil Noir" textAlignment="CENTER" textFill="#1e225e">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="774.0" layoutY="733.0" />
+            <Label layoutX="1083.0" layoutY="669.0" />
+            <Label fx:id="price1" layoutX="318.0" layoutY="747.0" text="30D" textFill="#1e225e">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="author2" layoutX="519.0" layoutY="709.0" text="Antall" textFill="#1e225e">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="author3" layoutX="717.0" layoutY="712.0" text="Antall" textFill="#1e225e">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="author4" layoutX="929.0" layoutY="712.0" text="Antall" textFill="#1e225e">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="price2" layoutX="528.0" layoutY="749.0" text="30D" textFill="#1e225e">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="price3" layoutX="726.0" layoutY="751.0" text="30D" textFill="#1e225e">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="price4" layoutX="934.0" layoutY="751.0" text="30D" textFill="#1e225e">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <ScrollPane layoutX="1094.0" layoutY="492.0" prefHeight="388.0" prefWidth="200.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="236.0" prefWidth="200.0" />
+              </content>
+            </ScrollPane>
+            <Label fx:id="category31" layoutX="1103.0" layoutY="454.0" text="Ask Me Here " textFill="#1e225e">
+               <font>
+                  <Font name="Calibri Italic" size="25.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="40.0" fitWidth="47.0" layoutX="1236.0" layoutY="444.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/images/icons8-inquiry-48.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="471.0" layoutY="733.0" text="Recommended  by " textFill="#726e6e" />
+            <Label fx:id="rate2" layoutX="575.0" layoutY="731.0" text="67% " textFill="RED">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="669.0" layoutY="733.0" text="Recommended  by " textFill="#726e6e" />
+            <Label fx:id="rate3" layoutX="773.0" layoutY="731.0" text="67% " textFill="RED">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="876.0" layoutY="733.0" text="Recommended  by " textFill="#726e6e" />
+            <Label fx:id="rate4" layoutX="979.0" layoutY="731.0" text="67% " textFill="RED">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="category32" layoutX="282.0" layoutY="490.0" text="All Books " textFill="#1e225e">
+               <font>
+                  <Font name="Calibri Italic" size="25.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="cover2" fitHeight="154.0" fitWidth="118.0" layoutX="485.0" layoutY="531.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/images/sommeilnoir.jpeg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cover3" fitHeight="154.0" fitWidth="118.0" layoutX="688.0" layoutY="531.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/images/sommeilnoir.jpeg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cover4" fitHeight="154.0" fitWidth="118.0" layoutX="896.0" layoutY="531.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/images/sommeilnoir.jpeg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="47.0" fitWidth="51.0" layoutX="227.0" layoutY="596.0" onMouseClicked="#precSlide" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/images/icons8-back-50.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="47.0" fitWidth="51.0" layoutX="1013.0" layoutY="596.0" onMouseClicked="#nextSlide" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/images/icons8-forward-50.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="270.0" fitWidth="645.0" layoutX="318.0" layoutY="177.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/images/pub3.jpg" />
+               </image>
+            </ImageView>
+            <ChoiceBox fx:id="categories" layoutX="10.0" layoutY="234.0" prefHeight="25.0" prefWidth="124.0" />
+            <Slider layoutX="12.0" layoutY="360.0" prefHeight="14.0" prefWidth="124.0" />
+            <Label layoutX="26.0" layoutY="321.0" text="Price" textFill="#1d225cd6">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="118.0" layoutY="374.0" text="p" />
+            <CheckBox layoutX="14.0" layoutY="446.0" mnemonicParsing="false" text="Online" textFill="#1e225e">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </CheckBox>
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>
