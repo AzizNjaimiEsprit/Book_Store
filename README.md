@@ -1,6 +1,6 @@
 BookStore project developed by : 
 
--> Med Aziz Njaimi
+-> Med Aziz Njaimi <br />
 -> Mahdi Riahi
 -> Hamdi Neit Limem
 -> Samar Neji
