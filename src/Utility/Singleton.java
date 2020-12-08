@@ -1,4 +1,4 @@
-package Utulitaire;
+package Utility;
 
 import java.sql.Connection;
 
