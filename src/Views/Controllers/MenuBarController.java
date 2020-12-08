@@ -15,7 +15,7 @@ public abstract class MenuBarController {
     public MenuBarController() {
         interfacesSizes.put("OnlineLibrary","545.0/744.0");
         interfacesSizes.put("QuizViewAdmin","563.0/711.0");
-        interfacesSizes.put("QuizViewClient","606.0/616.0");
+        interfacesSizes.put("QuizViewClient","606.0/658.0");
         interfacesSizes.put("ChatViewAdmin","568.0/812.0");
         interfacesSizes.put("ChatViewClient","482.0/812.0");
         interfacesSizes.put("AddQuizAdmin","645.0/692.0");
