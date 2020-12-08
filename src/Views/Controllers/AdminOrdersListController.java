@@ -10,16 +10,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.SwipeEvent;
 
 import javax.swing.*;
 import java.net.URL;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 /**
- *
- * @author  Njaimi Med Aziz
+ * @author Njaimi Med Aziz
  */
 public class AdminOrdersListController extends MenuBarController implements Initializable {
     ArrayList<String> etats = new ArrayList<>();
@@ -29,7 +33,6 @@ public class AdminOrdersListController extends MenuBarController implements Init
 
     @FXML
     private ChoiceBox<String> status_select;
-
 
 
     @FXML
@@ -89,18 +92,21 @@ public class AdminOrdersListController extends MenuBarController implements Init
     @FXML
     private Label total_revenue;
 
-    ObservableList<Order> res = FXCollections.observableArrayList(
-            orderService.getOrders("Non Traite","","")
+    ObservableList<Order> ordersData = FXCollections.observableArrayList(
+            orderService.getOrders("", "", "")
     );
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Initializing Choice box
-        etats.add("Non Traite");etats.add("En livraison");etats.add("Traite");
-        etatsFind.add("All");etatsFind.addAll(etats);
+        etats.add("Non Traite");
+        etats.add("En livraison");
+        etats.add("Traite");
+        etatsFind.add("All");
+        etatsFind.addAll(etats);
         status_select.setItems(FXCollections.observableArrayList(etatsFind));
         status_select.getSelectionModel().select(1);
-
+        this.search(null);
         // Initializing Orders Table
         userId.setCellValueFactory(new PropertyValueFactory("userFullName"));
         totalPrice.setCellValueFactory(new PropertyValueFactory("totalPrice"));
@@ -112,13 +118,13 @@ public class AdminOrdersListController extends MenuBarController implements Init
         status.setCellValueFactory(new PropertyValueFactory("status"));
         discount_coupon.setCellValueFactory(new PropertyValueFactory("discountCoupon"));
         refund_coupon.setCellValueFactory(new PropertyValueFactory("refundCoupon"));
-        table.setItems(res);
+        table.setItems(ordersData);
         updateTotal();
     }
 
     @FXML
     public void clickItem(MouseEvent event) {
-        if (table.getSelectionModel().getSelectedIndex() == -1){
+        if (table.getSelectionModel().getSelectedIndex() == -1) {
             return;
         }
 
@@ -131,25 +137,26 @@ public class AdminOrdersListController extends MenuBarController implements Init
             price_item.setCellValueFactory(new PropertyValueFactory("bookPrice"));
             tot_price_item.setCellValueFactory(new PropertyValueFactory("totalBooksPrice"));
             int index = table.getSelectionModel().getSelectedIndex();
-            ObservableList<OrderItem> items = FXCollections.observableArrayList(res.get(index).getItems());
+            ObservableList<OrderItem> items = FXCollections.observableArrayList(ordersData.get(index).getItems());
             order_items.setItems(items);
-        }
-        else if (event.getClickCount() == 2){
+        } else if (event.getClickCount() == 2) {
             Order toEdit = table.getSelectionModel().getSelectedItem();
-            if (toEdit.getStatus().equals("Traite")){
-                JOptionPane.showMessageDialog(null,"You can't update a treated order!");
+            if (toEdit.getStatus().equals("Traite")) {
+                JOptionPane.showMessageDialog(null, "You can't update a treated order status!");
                 return;
             }
             Object[] options = etats.toArray();
-            String newStatus =(String) JOptionPane.showInputDialog(null,
+            String newStatus = (String) JOptionPane.showInputDialog(null,
                     "Enter the new status",
                     "Update Status",
                     JOptionPane.QUESTION_MESSAGE,
                     null,
                     options,
                     options[0]);
-            int dialogResult = JOptionPane.showConfirmDialog (null, "Would You Like to Save ?","Warning",JOptionPane.OK_CANCEL_OPTION);
-            if(dialogResult == JOptionPane.YES_OPTION){
+            if (newStatus == null)
+                return;
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Would You Like to Save ?", "Warning", JOptionPane.OK_CANCEL_OPTION);
+            if (dialogResult == JOptionPane.YES_OPTION) {
                 toEdit.setStatus(newStatus);
                 orderService.editOrderStatus(toEdit);
                 table.refresh();
@@ -158,21 +165,18 @@ public class AdminOrdersListController extends MenuBarController implements Init
     }
 
 
-
     @FXML
     public void search(MouseEvent event) {
-        if (event.getClickCount() == 1) //Checking click
-        {
-            String status = status_select.getValue().equals("All") ? "" : status_select.getValue();
-            if (start_date.getValue() != null && end_date.getValue() != null) {
-                res = FXCollections.observableArrayList(orderService.getOrders(status,start_date.getValue().toString(),end_date.getValue().toString()));
-            }
-            else{
-                res = FXCollections.observableArrayList(orderService.getOrders(status,"",""));
-            }
-            table.setItems(res);
-            updateTotal();
+        List<Order> filteredList = ordersData;
+        Predicate<Order> filterByStatus = p -> (p.getStatus().equals(status_select.getValue()) || status_select.getValue().equals("All"));
+        Predicate<Order> filterByDate = p -> (LocalDate.parse(p.getOrderDate()).compareTo(start_date.getValue())>=0 && LocalDate.parse(p.getOrderDate()).compareTo(end_date.getValue())<=0);
+        if (start_date.getValue() != null && end_date.getValue() != null) {
+            filteredList = filteredList.stream().filter(filterByStatus::test).filter(filterByDate::test).collect(Collectors.toList());
+        } else {
+            filteredList = filteredList.stream().filter(filterByStatus::test).collect(Collectors.toList());
         }
+        table.setItems(FXCollections.observableArrayList(filteredList));
+        updateTotal();
     }
 
     @FXML
@@ -183,37 +187,28 @@ public class AdminOrdersListController extends MenuBarController implements Init
             end_date.setValue(null);
             status_select.getSelectionModel().select(0);
             total_revenue.setText("0 Dt");
+            table.setItems(ordersData);
         }
     }
 
-    private int getIndexSelect(int index) {
-        String ch = this.res.get(index).getStatus();
-        System.out.println(ch);
-        if (ch.equals(etats.get(0)))
-            return 0;
-        if (ch.equals(etats.get(1)))
-            return 1;
-        if (ch.equals(etats.get(2)))
-            return 2;
-        return 0;
-    }
 
     public void refresh(MouseEvent mouseEvent) {
-        res.clear();
-        res.addAll(orderService.getOrders("Non Traite","",""));
+        ordersData.clear();
+        ordersData.addAll(orderService.getOrders("Non Traite", "", ""));
         table.refresh();
         updateTotal();
     }
-    public void updateTotal(){
-        tot =0;
-        for(Order i : res)
-        {
+
+    public void updateTotal() {
+        tot = 0;
+        for (Order i : table.getItems()) {
             tot += i.getTotalPrice();
         }
-        total_revenue.setText(""+tot+" Dt");
+        total_revenue.setText("" + tot + " Dt");
     }
 
     public void showHints(MouseEvent mouseEvent) {
-        JOptionPane.showMessageDialog(null,"To edit order status all you have to do is double click on the order");
+        JOptionPane.showMessageDialog(null, "To edit order status all you have to do is double click on the order");
     }
+
 }
