@@ -14,7 +14,7 @@
    <children>
       <MenuBar prefHeight="27.0" prefWidth="695.0">
         <menus>
-          <Menu mnemonicParsing="false" text="Quiz list" onAction="#handlemenuclick">
+          <Menu mnemonicParsing="false" onAction="#handlemenuclick" text="Quiz list">
             <items>
                 <MenuItem id="ChatViewAdmin" mnemonicParsing="false" text="Chat list" />
             </items>
@@ -40,9 +40,14 @@
             <TableColumn fx:id="col_remove" prefWidth="158.0" text="Remove quiz" />
         </columns>
       </TableView>
-      <ImageView fitHeight="76.0" fitWidth="133.0" layoutX="597.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="76.0" fitWidth="133.0" layoutX="20.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Resources/images/test-quiz.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="481.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Resources/images/logo.png" />
          </image>
       </ImageView>
    </children>

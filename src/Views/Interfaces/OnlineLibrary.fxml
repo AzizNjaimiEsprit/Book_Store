@@ -35,9 +35,9 @@
                   <TableColumn fx:id="quiz" prefWidth="121.0" text="Take quiz" />
                </columns>
             </TableView>
-            <MenuBar layoutY="-5.0" prefHeight="36.0" prefWidth="729.0" >
-              <menus >
-                <Menu mnemonicParsing="false" text="library" onAction="#handlemenuclick">
+            <MenuBar layoutY="-5.0" prefHeight="36.0" prefWidth="729.0">
+              <menus>
+                <Menu mnemonicParsing="false" onAction="#handlemenuclick" text="library">
                   <items>
                     <MenuItem id="OnlineLibrary" mnemonicParsing="false" text="My Library" />
                       <MenuItem id="ChatViewClient" mnemonicParsing="false" text="FAQ" />
@@ -59,6 +59,11 @@
             <ImageView fitHeight="102.0" fitWidth="149.0" layoutX="26.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Resources/images/libraryIcon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="108.0" fitWidth="198.0" layoutX="505.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/images/logo.png" />
                </image>
             </ImageView>
          </children>

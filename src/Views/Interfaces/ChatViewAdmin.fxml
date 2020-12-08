@@ -18,7 +18,7 @@
       <Accordion layoutX="330.0" layoutY="142.0" />
       <MenuBar layoutY="-2.0" prefHeight="25.0" prefWidth="796.0">
         <menus>
-          <Menu mnemonicParsing="false" text="FAQ" onAction="#handlemenuclick">
+          <Menu mnemonicParsing="false" onAction="#handlemenuclick" text="FAQ">
             <items>
               <MenuItem id="ChatViewAdmin" mnemonicParsing="false" text="FAQ" />
                 <MenuItem id="QuizViewAdmin" mnemonicParsing="false" text="Quiz" />
@@ -55,6 +55,11 @@
       <ImageView fitHeight="78.0" fitWidth="91.0" layoutX="29.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Resources/images/faqIcon.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="88.0" fitWidth="177.0" layoutX="590.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Resources/images/logo.png" />
          </image>
       </ImageView>
    </children>
