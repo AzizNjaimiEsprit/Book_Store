@@ -1,7 +1,7 @@
 package Views.Controllers;
 
 
-import Utilitaire.Global;
+import Utility.Global;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +18,7 @@ public class MenuBarController {
         interfacesSizes.put("Book","837/988");
        // interfacesSizes.put("Home","921/1305");
         interfacesSizes.put("HomeByAziz","965/1330");
-        interfacesSizes.put("UpdateBook","837/988");
+        interfacesSizes.put("UpdateBook","647/836");
        /* interfacesSizes.put("ClientOrdersListPage","837/1598");
         interfacesSizes.put("OrdersListPage","869/1598");
         interfacesSizes.put("PaymentPage","584/712");

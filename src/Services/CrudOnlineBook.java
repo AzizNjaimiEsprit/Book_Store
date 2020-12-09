@@ -2,7 +2,7 @@ package Services;
 
 import Beans.Category;
 import Beans.OnlineBook;
-import Utilitaire.Singleton;
+import Utility.Singleton;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -133,5 +133,22 @@ public class CrudOnlineBook {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage()); }
         return LOlivre;
+    }
+
+    public int RecupererQuantitéLivre(OnlineBook b) {
+        if (b.equals(RecupererLivreEnLigne(b))) {
+            try {
+                PreparedStatement preparedStat = cnn.prepareStatement(" SELECT quantity From BOOK  WHERE id=" + b.getId());
+                ResultSet res = preparedStat.executeQuery();
+                while (res.next())
+                    return res.getInt("quantity");
+                System.out.println("La quantité du livre " + b.getId() + "est modifier ");
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else {
+            System.out.println("le livre n'existe pas ");
+        }
+        return -1;
     }
 }

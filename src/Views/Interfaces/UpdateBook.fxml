@@ -10,44 +10,44 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Views.Controllers.UpdateBookController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="820.0" stylesheets="@../Resources/css/styleBook.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Views.Controllers.UpdateBookController">
    <children>
-      <Label layoutX="62.0" layoutY="170.0" text="Title" />
-      <Label layoutX="63.0" layoutY="229.0" text="Category" />
-      <Label layoutX="62.0" layoutY="291.0" prefWidth="89.0" text="Published House" />
-      <Label layoutX="370.0" layoutY="179.0" text="Summary" />
-      <Label layoutX="370.0" layoutY="235.0" text="Release Date" />
-      <Label layoutX="371.0" layoutY="291.0" text="Author(s)" />
-      <Label layoutX="62.0" layoutY="346.0" text="Quantity" />
-      <Label layoutX="62.0" layoutY="402.0" text="Status" />
-      <Label layoutX="61.0" layoutY="469.0" text="Price" />
-      <Label layoutX="370.0" layoutY="350.0" text="Number of pages" />
-      <Label layoutX="372.0" layoutY="402.0" text="Image Path" />
-      <TextField fx:id="txtitle" layoutX="167.0" layoutY="175.0" />
-      <TextField fx:id="txtpubhouse" layoutX="167.0" layoutY="287.0" />
-      <TextField fx:id="txtsummary" layoutX="486.0" layoutY="175.0" />
-      <TextField fx:id="txtquanity" layoutX="167.0" layoutY="348.0" />
-      <TextField fx:id="txtstatus" layoutX="167.0" layoutY="405.0" />
-      <TextField fx:id="txtprice" layoutX="167.0" layoutY="465.0" />
-      <TextField fx:id="txtpage" layoutX="486.0" layoutY="345.0" />
-      <TextField fx:id="txtimage" layoutX="486.0" layoutY="398.0" />
-      <DatePicker fx:id="txtdate" layoutX="486.0" layoutY="231.0" prefHeight="25.0" prefWidth="149.0" />
-      <ChoiceBox fx:id="categories" layoutX="166.0" layoutY="227.0" prefWidth="150.0" />
-      <Button layoutX="561.0" layoutY="504.0" mnemonicParsing="false" onAction="#updatebook" prefHeight="41.0" prefWidth="79.0" text="Update" />
-      <Label layoutX="298.0" layoutY="72.0" prefHeight="53.0" prefWidth="269.0" text="Update Book" textFill="#e86e6e">
+      <Label layoutX="113.0" layoutY="170.0" text="Title" />
+      <Label layoutX="114.0" layoutY="229.0" text="Category" />
+      <Label layoutX="113.0" layoutY="291.0" prefWidth="89.0" text="Published House" />
+      <Label layoutX="421.0" layoutY="179.0" text="Summary" />
+      <Label layoutX="421.0" layoutY="233.0" text="Release Date" />
+      <Label layoutX="422.0" layoutY="295.0" text="Author(s)" />
+      <Label layoutX="113.0" layoutY="350.0" text="Quantity" />
+      <Label layoutX="116.0" layoutY="409.0" text="Status" />
+      <Label layoutX="118.0" layoutY="469.0" text="Price" />
+      <Label layoutX="418.0" layoutY="353.0" text="Number of pages" />
+      <Label layoutX="423.0" layoutY="411.0" text="Image Path" />
+      <TextField fx:id="txtitle" layoutX="218.0" layoutY="175.0" />
+      <TextField fx:id="txtpubhouse" layoutX="218.0" layoutY="287.0" />
+      <TextField fx:id="txtsummary" layoutX="537.0" layoutY="175.0" />
+      <TextField fx:id="txtquanity" layoutX="218.0" layoutY="348.0" />
+      <TextField fx:id="txtstatus" layoutX="218.0" layoutY="405.0" />
+      <TextField fx:id="txtprice" layoutX="218.0" layoutY="465.0" />
+      <TextField fx:id="txtpage" layoutX="537.0" layoutY="348.0" />
+      <TextField fx:id="txtimage" layoutX="537.0" layoutY="407.0" />
+      <DatePicker fx:id="txtdate" layoutX="537.0" layoutY="229.0" prefHeight="25.0" prefWidth="149.0" />
+      <ChoiceBox fx:id="categories" layoutX="217.0" layoutY="227.0" prefWidth="150.0" />
+      <Button layoutX="612.0" layoutY="504.0" mnemonicParsing="false" onAction="#updatebook" prefHeight="41.0" prefWidth="89.0" styleClass="buttonBlue" text="Update" />
+      <Label layoutX="298.0" layoutY="72.0" prefHeight="53.0" prefWidth="269.0" styleClass="pagetitle" text="Update Book" textFill="#1e225e">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <Label layoutX="370.0" layoutY="448.0" text="PDF url " />
-      <TextField fx:id="txturl" layoutX="484.0" layoutY="444.0" />
-      <TextField fx:id="txtauthor" layoutX="484.0" layoutY="287.0" />
-      <ImageView fx:id="back" fitHeight="41.0" fitWidth="42.0" layoutX="33.0" layoutY="78.0" onMouseClicked="#backToHome" pickOnBounds="true" preserveRatio="true">
+      <Label layoutX="422.0" layoutY="470.0" text="PDF url " />
+      <TextField fx:id="txturl" layoutX="535.0" layoutY="465.0" />
+      <TextField fx:id="txtauthor" layoutX="535.0" layoutY="291.0" />
+      <ImageView fx:id="back" fitHeight="41.0" fitWidth="42.0" layoutX="33.0" layoutY="70.0" onMouseClicked="#backToHome" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Resources/images/icons8-back-arrow-96.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="65.0" fitWidth="60.0" layoutX="731.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="69.0" fitWidth="79.0" layoutX="712.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Resources/images/adminicon.png" />
          </image>

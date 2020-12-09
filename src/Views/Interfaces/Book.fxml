@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -20,12 +21,12 @@
             <Image url="@../Resources/images/sommeilnoir.jpeg" />
          </image>
       </ImageView>
-      <Label fx:id="title" layoutX="300.0" layoutY="82.0" prefHeight="31.0" prefWidth="173.0" text="SOMMEIL NOIR ">
+      <Label fx:id="title" layoutX="300.0" layoutY="82.0" prefHeight="31.0" prefWidth="283.0" text="SOMMEIL NOIR ">
          <font>
             <Font size="21.0" />
          </font>
       </Label>
-      <Label fx:id="author" layoutX="318.0" layoutY="113.0" text="ANTALL">
+      <Label fx:id="author" layoutX="318.0" layoutY="113.0" prefHeight="20.0" prefWidth="166.0" text="ANTALL">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -56,7 +57,7 @@
          </image>
       </ImageView>
       <Label layoutX="301.0" layoutY="115.0" text="by" />
-      <Label fx:id="ratenote" layoutX="413.0" layoutY="133.0" text="4">
+      <Label fx:id="ratenote" layoutX="413.0" layoutY="133.0" text="0">
          <font>
             <Font size="14.0" />
          </font>
@@ -183,13 +184,12 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Line endX="518.0" layoutX="400.0" layoutY="483.0" startX="-100.0" />
-      <Label layoutX="300.0" layoutY="491.0" text="Summary " textFill="#1e225e">
+      <Line endX="518.0" layoutX="400.0" layoutY="478.0" startX="-100.0" />
+      <Label layoutX="300.0" layoutY="482.0" text="Summary " textFill="#1e225e">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="summary" layoutX="299.0" layoutY="521.0" text="Double meurtre à Digne-les-Bains. Mais le 1er cadavre semble être le coupable du 2nd. " />
       <Label layoutX="312.0" layoutY="370.0" text="Langue " />
       <Label layoutX="458.0" layoutY="364.0" text="Frensh " textFill="#1e225e">
          <font>
@@ -203,7 +203,6 @@
       </ImageView>
       <Button layoutX="673.0" layoutY="439.0" mnemonicParsing="false" text="Check DEMO" />
       <Line endX="518.0" layoutX="398.0" layoutY="572.0" startX="-100.0" />
-      <Label layoutX="299.0" layoutY="538.0" text="Le capitaine Roxane Iadonisi est aux manettes. C’est un peu sa dernière chance de prouver qu'elle est apte au service." />
       <Label layoutX="300.0" layoutY="582.0" text="Comment " textFill="#1e225e">
          <font>
             <Font name="System Bold" size="20.0" />
@@ -243,5 +242,12 @@
             <Image url="@../Resources/images/AppLogo.png" />
          </image>
       </ImageView>
+      <TextArea fx:id="summary" layoutX="293.0" layoutY="518.0" prefHeight="40.0" prefWidth="625.0" />
+      <ImageView fitHeight="31.0" fitWidth="62.0" layoutX="310.0" layoutY="192.0" onMouseClicked="#TSdownload" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Resources/images/icons8-download-100.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="340.0" layoutY="204.0" text="Technical Sheet " textFill="#1e225e" />
    </children>
 </AnchorPane>

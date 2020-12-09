@@ -1,14 +1,15 @@
 package Services;
 
 import Beans.Book;
-import Beans.User;
 import api.JavaSendEmail;
 
 public class ReptureStock {
-    public void VerificationStock (Book b , User u ){
+    public static void VerificationStock (Book b ){
         CrudBook cb = new CrudBook();
+        System.out.println(cb.RecupererQuantitéLivre(b));
         if (cb.RecupererQuantitéLivre(b)<=0){
-            JavaSendEmail.SendMail(u.getEmail(),b , u);
+
+            JavaSendEmail.SendMail("samar.neji@esprit.tn",b);
         }else
             System.out.println("le stoc est superieur a 0");
 

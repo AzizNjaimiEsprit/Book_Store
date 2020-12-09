@@ -1,14 +1,13 @@
-package Utulitaire;
+package Utility;
 
 import Beans.User;
 import javafx.stage.Stage;
 
-public abstract class Global {
-
-    private static User currentUser;
+public class Global {
+    private static User currentUser = new User(1);
     private static Stage primaryStage;
 
-    /************************** Getter & Setter *****************************/
+   // ************************* Getter & Setter ****************************
 
     public static User getCurrentUser() {
         return currentUser;
@@ -25,4 +24,5 @@ public abstract class Global {
     public static void setPrimaryStage(Stage primaryStage) {
         Global.primaryStage = primaryStage;
     }
+
 }

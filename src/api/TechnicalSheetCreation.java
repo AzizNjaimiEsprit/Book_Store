@@ -31,7 +31,7 @@ public class TechnicalSheetCreation {
             Font blue = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLUE);
 
             //****************************
-            Paragraph para = new Paragraph("Fiche technique du livre " +b.getTitle()+"\n ", blue);
+            Paragraph para = new Paragraph("Technical Sheet of " +b.getTitle()+"\n ", blue);
             para.setAlignment(Element.ALIGN_CENTER);
             document.add(para);
             document.add(new Paragraph("  "));
@@ -50,21 +50,21 @@ public class TechnicalSheetCreation {
             table.addCell(new Phrase("Author(s)",blue));
             table.addCell(b.getAuthors().toString());
 
-            table.addCell(new Phrase("Maison d'édition",blue));
+            table.addCell(new Phrase("Published House",blue));
             table.addCell(b.getPubHouse());
 
-            table.addCell(new Phrase("Date d'édition",blue));
+            table.addCell(new Phrase("Release Date",blue));
             table.addCell(b.getReleaseDate().toString());
 
 
-            table.addCell(new Phrase("Categorie",blue));
+            table.addCell(new Phrase("Category",blue));
             table.addCell(b.getCategory().getName());
 
 
-            table.addCell(new Phrase("Nombre de page",blue));
+            table.addCell(new Phrase("Number of pages",blue));
             table.addCell(String.valueOf(b.getNbPage()));
 
-            table.addCell(new Phrase("Resumer",blue));
+            table.addCell(new Phrase("Summary",blue));
             table.addCell(b.getSummary());
 
             document.add(table);

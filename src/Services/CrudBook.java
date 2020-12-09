@@ -3,7 +3,7 @@ package Services;
 import Beans.Book;
 import Beans.Category;
 import api.TechnicalSheetCreation;
-import Utilitaire.Singleton;
+import Utility.Singleton;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package Services;
 import Beans.Book;
 import Beans.Comment;
 import Beans.User;
-import Utilitaire.Singleton;
+import Utility.Singleton;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

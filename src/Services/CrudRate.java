@@ -1,7 +1,7 @@
 package Services;
 
 import Beans.*;
-import Utilitaire.Singleton;
+import Utility.Singleton;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

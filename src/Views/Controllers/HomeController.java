@@ -6,7 +6,7 @@ import Beans.OnlineBook;
 import Services.CrudCategory;
 import Services.CrudOnlineBook;
 import Services.CrudRate;
-import Utilitaire.Global;
+import Utility.Global;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -46,7 +46,16 @@ CrudCategory cc = new CrudCategory();
     @FXML
     private TextField textSearch;
     @FXML
-    private ChoiceBox<Category> categories;
+    private ChoiceBox<Category> categorylist;
+
+    @FXML
+    private ChoiceBox<String> aaa;
+
+    @FXML
+    private ChoiceBox<String> ppp;
+
+
+
 
 
     ObservableList<OnlineBook> bookList = FXCollections.observableArrayList(cb.RecupererListLivreEnLigne());
@@ -57,8 +66,15 @@ CrudCategory cc = new CrudCategory();
         this.nextSlide(null);
         List<String> list = bookList.stream().map(p->p.getTitle()).collect(Collectors.toList());
         TextFields.bindAutoCompletion(textSearch,list);
+        List<String> listOfauthors = bookList.stream().map(p->p.getAuthors()).collect(Collectors.toList());
+        List<String> listOfPubHouses = bookList.stream().map(p->p.getPubHouse()).collect(Collectors.toList());
+        categorylist.setItems(FXCollections.observableArrayList(cc.RecupererListCategory()));
+        aaa.setItems(FXCollections.observableArrayList(listOfauthors));
+        ppp.setItems(FXCollections.observableArrayList(listOfPubHouses));
 
-        categories.setItems(FXCollections.observableArrayList(cc.RecupererListCategory()));
+
+        //****************************************************
+
 
 
     }
@@ -166,6 +182,13 @@ CrudCategory cc = new CrudCategory();
     }
 
     public void goToWishlist(MouseEvent mouseEvent) {
+
+
+
+
+
+
+
     //    redirect("Wishlist");
 
     }
@@ -176,5 +199,11 @@ CrudCategory cc = new CrudCategory();
 
     public void goToBasket(MouseEvent mouseEvent) {
     //    redirect("Basket");
+    }
+
+    public void goToOrder(MouseEvent mouseEvent) {
+        //    redirect("Order");
+
+
     }
 }

@@ -5,21 +5,25 @@ import Beans.OnlineBook;
 import Beans.Rate;
 import Services.CrudComment;
 import Services.CrudRate;
-import Utilitaire.Global;
+import Utility.Global;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -29,7 +33,7 @@ public class BookController extends MenuBarController implements Initializable {
     CrudRate cr = new CrudRate();
     private OnlineBook toshow = null;
     OnlineBook b = new OnlineBook();
-    Image starImageFull = new Image("file:src/View/Resources/images/full.png");
+    Image starImageFull = new Image("file:src/Views/Resources/images/full.png");
 
     @FXML
     private TextField txtcomment;
@@ -73,7 +77,7 @@ public class BookController extends MenuBarController implements Initializable {
     private Label priceonlinebook;
 
     @FXML
-    private Label summary;
+    private TextArea summary;
 
     @FXML
     private ImageView etoile5;
@@ -119,7 +123,7 @@ public class BookController extends MenuBarController implements Initializable {
         summary.setText(b.getSummary());
         nbpage.setText(String.valueOf(b.getNbPage()));
         pricebook.setText(String.valueOf(b.getPrice()));
-        priceonlinebook.setText(String.valueOf(b.getPrice() - b.getPrice() * 1.5));
+        priceonlinebook.setText(String.valueOf(b.getPrice() - b.getPrice() * 0.75));
         moyrate.setText(String.valueOf(cr.getMoyRates(b)));
         Rate rate = cr.RecupererRate(new Rate(0, b, Global.getCurrentUser(), 0));
         if (rate!=null)
@@ -141,6 +145,9 @@ public class BookController extends MenuBarController implements Initializable {
         cc.AjouterCommentaire(c);
         commentList = FXCollections.observableArrayList(cc.RecupererListComment(toshow));
         commentableview.setItems(commentList);
+        JOptionPane.showMessageDialog(null,"Thank you for your comment");
+        txtcomment.clear();
+
     }
 
     public void goToWishlist(ActionEvent actionEvent) {/*
@@ -182,6 +189,8 @@ public class BookController extends MenuBarController implements Initializable {
         cr.AjouterRate(rate);
         ratenote.setText("1");
         setStarImages(1);
+        JOptionPane.showMessageDialog(null,"Thank you for your review ");
+
     }
 
     public void setRate2(MouseEvent mouseEvent) {
@@ -190,6 +199,8 @@ public class BookController extends MenuBarController implements Initializable {
         cr.AjouterRate(rate);
         ratenote.setText("2");
         setStarImages(2);
+        JOptionPane.showMessageDialog(null,"Thank you for your review ");
+
     }
 
     public void setRate3(MouseEvent mouseEvent) {
@@ -198,6 +209,8 @@ public class BookController extends MenuBarController implements Initializable {
         cr.AjouterRate(rate);
         ratenote.setText("3");
         setStarImages(3);
+        JOptionPane.showMessageDialog(null,"Thank you for your review ");
+
     }
 
     public void setRate4(MouseEvent mouseEvent) {
@@ -206,6 +219,8 @@ public class BookController extends MenuBarController implements Initializable {
         cr.AjouterRate(rate);
         ratenote.setText("4");
         setStarImages(4);
+        JOptionPane.showMessageDialog(null,"Thank you for your review ");
+
     }
 
     public void setRate5(MouseEvent mouseEvent) {
@@ -214,6 +229,8 @@ public class BookController extends MenuBarController implements Initializable {
         cr.AjouterRate(rate);
         ratenote.setText("5");
         setStarImages(5);
+        JOptionPane.showMessageDialog(null,"Thank you for your review ");
+
     }
     public void setStarImages(int x){
         rateFlag = false;
@@ -226,5 +243,15 @@ public class BookController extends MenuBarController implements Initializable {
         this.toshow = toshow;
         b.setId(toshow.getId());
         init(toshow);
+    }
+
+    public void TSdownload(MouseEvent mouseEvent) {
+       File file = new File( "C:/wamp64/www/BookStore/BookTechnicalSheet/"+b.getId()+".pdf");
+        try {
+            Desktop.getDesktop().open(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

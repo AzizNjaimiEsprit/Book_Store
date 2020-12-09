@@ -1,19 +1,10 @@
-package Utulitaire;
+package Utility;
 
 public interface Credentials {
-    //Email Credentials 
-    String from = "bookstore.cm.esprit@gmail.com";
-    String password = "bookstore**";
-    // Nexmo Api Credentials 
-    String nexmo_apiKey = "b17813**";
-    String nexmo_apiSecret = "D6YjaxTfSEBiIu**";
-
-    String host ="brbrcv3yusbod6uggq**-mysql.services.clever-cloud.com";
-    String dbname = "brbrcv3yusbod6uggq**";
-    String url = "jdbc:mysql://"+host+":3306/"+dbname;
-    String user = "ufwcrzhlecbvqmn5";
-    String passwd = "lFBBoU6swhBLissd766v";
-    String driver = "com.mysql.jdbc.Driver";
-    String sgbd_name = "MySQL";
-
+    String host = "bl0ne6dzuxgeguzrjivj-mysql.services.clever-cloud.com";
+    String dbname ="bl0ne6dzuxgeguzrjivj";
+    String url ="jdbc:mysql;//"+host+":3306/"+dbname;
+    String user ="urtaylpqbf6raugc";
+    String passws ="DTon5jDCKqlCCdaqMsH4";
+    String sgbd_name ="My sql";
 }

@@ -12,6 +12,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
+import javax.swing.*;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ResourceBundle;
@@ -106,6 +107,7 @@ AddOnlineBookController a = new AddOnlineBookController();
         book.setId(id);
 
         cb.ModifierLivreEnLigne( book);
+        JOptionPane.showMessageDialog(null,"Book updated successfully");
 
     }
 
