@@ -2,8 +2,8 @@ package Views.Controllers;
 
 import Beans.Category;
 import Beans.OnlineBook;
-import Services.CrudCategory;
 import Services.CrudOnlineBook;
+import Services.ServiceCategorie;
 import Utility.Global;
 import api.TechnicalSheetCreation;
 import javafx.collections.FXCollections;
@@ -28,13 +28,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AddOnlineBookController extends MenuBarController implements Initializable {
-    CrudCategory cc = new CrudCategory();
+    @FXML
+    private MenuBar menuBar;
+    ServiceCategorie cc = new ServiceCategorie();
     CrudOnlineBook cb = new CrudOnlineBook();
     TechnicalSheetCreation ts = new TechnicalSheetCreation();
 
     File img;
     File pdf;
     private int flag = 0;
+
 
     @FXML
     private Button addbtn;
@@ -111,21 +114,23 @@ public class AddOnlineBookController extends MenuBarController implements Initia
 
     ObservableList<OnlineBook> bookList = FXCollections.observableArrayList(cb.RecupererListLivreEnLigne());
 
-    private boolean controlnumbers()
-    { Pattern pattern = Pattern.compile("[^0-9]");
+    private boolean controlnumbers() {
+        Pattern pattern = Pattern.compile("[^0-9]");
         Matcher matcher1 = pattern.matcher(quantity.getText());
         Matcher matcher2 = pattern.matcher(nbPage.getText());
         Matcher matcher3 = pattern.matcher(price.getText());
 
 
-        if((!matcher1.find())&&(!matcher1.find())&&(!matcher1.find()))
-        {
+        if ((!matcher1.find()) && (!matcher1.find()) && (!matcher1.find())) {
             return true;
-        }else {return false; }
+        } else {
+            return false;
+        }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initMenuBar(menuBar);
         title.setCellValueFactory(new PropertyValueFactory<OnlineBook, String>("title"));
         price.setCellValueFactory(new PropertyValueFactory<OnlineBook, Double>("price"));
         author.setCellValueFactory(new PropertyValueFactory<OnlineBook, String>("authors"));
@@ -140,7 +145,7 @@ public class AddOnlineBookController extends MenuBarController implements Initia
 
 
         allbookstable.setItems(bookList);
-        categories.setItems(FXCollections.observableArrayList(cc.RecupererListCategory()));
+        categories.setItems(cc.afficher());
 
     }
 
@@ -156,54 +161,52 @@ public class AddOnlineBookController extends MenuBarController implements Initia
 
 
     public void ajouterlivre(javafx.event.ActionEvent actionEvent) {
-if(controlnumbers()){
+        if (controlnumbers()) {
 
-        OnlineBook b = new OnlineBook(
-                txtitle.getText(),
-                Double.parseDouble(txtprice.getText()),
-                txtpubhouse.getText(),
-                txtsummary.getText(),
-                Date.valueOf(txtdate.getValue()),
-                Integer.parseInt(txtquanity.getText()),
-                txtstatus.getText(),
-                categories.getSelectionModel().getSelectedItem(),
-                txtimage.getText(),
-                Integer.parseInt(txtpage.getText()),
-                authors.getText(),
-                txturl.getText());
-   
-           int insertId = cb.AjouterLivreEnLigne(b);
-           b.setId(insertId);
-           System.out.println(b.toString());
+            OnlineBook b = new OnlineBook(
+                    txtitle.getText(),
+                    Double.parseDouble(txtprice.getText()),
+                    txtpubhouse.getText(),
+                    txtsummary.getText(),
+                    Date.valueOf(txtdate.getValue()),
+                    Integer.parseInt(txtquanity.getText()),
+                    txtstatus.getText(),
+                    categories.getSelectionModel().getSelectedItem(),
+                    txtimage.getText(),
+                    Integer.parseInt(txtpage.getText()),
+                    authors.getText(),
+                    txturl.getText());
 
-           img.renameTo(new File("C:/wamp64/www/BookStore/BooksImage/" + insertId + ".jpg"));
-           pdf.renameTo(new File("C:/wamp64/www/BookStore/OnlineBookPdf/" + insertId + ".pdf"));
-           JOptionPane.showMessageDialog(null, "Book added successfully");
-           bookList = FXCollections.observableArrayList(cb.RecupererListLivreEnLigne());
-           allbookstable.setItems(bookList);
-           txtitle.clear();
-           txtprice.clear();
-           txtsummary.clear();
-           txtdate.setValue(null);
-           txtquanity.clear();
-           txtstatus.clear();
-           txtimage.clear();
-           txtpage.clear();
-           txtpubhouse.clear();
-           authors.clear();
-           txturl.clear();
+            int insertId = cb.AjouterLivreEnLigne(b);
+            b.setId(insertId);
+            System.out.println(b.toString());
 
-           ts.CreatTS(b);} else  JOptionPane.showMessageDialog(null,"Invalid quantity , number of pages or price  ");
+            img.renameTo(new File("C:/wamp64/www/BookStore/BooksImage/" + insertId + ".jpg"));
+            pdf.renameTo(new File("C:/wamp64/www/BookStore/OnlineBookPdf/" + insertId + ".pdf"));
+            JOptionPane.showMessageDialog(null, "Book added successfully");
+            bookList = FXCollections.observableArrayList(cb.RecupererListLivreEnLigne());
+            allbookstable.setItems(bookList);
+            txtitle.clear();
+            txtprice.clear();
+            txtsummary.clear();
+            txtdate.setValue(null);
+            txtquanity.clear();
+            txtstatus.clear();
+            txtimage.clear();
+            txtpage.clear();
+            txtpubhouse.clear();
+            authors.clear();
+            txturl.clear();
 
-
+            ts.CreatTS(b);
+        } else JOptionPane.showMessageDialog(null, "Invalid quantity , number of pages or price  ");
 
 
     }
 
 
-
     public void ToUpdate(ActionEvent actionEvent) {
-        try{
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../Interfaces/UpdateBook.fxml"));
             Global.getPrimaryStage().setWidth(getWidth("UpdateBook"));
             Global.getPrimaryStage().setHeight(getHeight("UpdateBook"));
@@ -213,8 +216,7 @@ if(controlnumbers()){
             UpdatebookController.setToshow(allbookstable.getSelectionModel().getSelectedItem());
             System.out.println("done");
 
-        }catch (IOException ex)
-        {
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -223,7 +225,7 @@ if(controlnumbers()){
         FileChooser fileChooser = new FileChooser();
         // Set extension filter
         FileChooser.ExtensionFilter extFilter =
-                new FileChooser.ExtensionFilter("Image files ","*.jpg");
+                new FileChooser.ExtensionFilter("Image files ", "*.jpg");
         fileChooser.getExtensionFilters().add(extFilter);
 
         // Show open file dialog
@@ -239,7 +241,7 @@ if(controlnumbers()){
     public void pickPdf(MouseEvent mouseEvent) {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter =
-                new FileChooser.ExtensionFilter("PDF files ","*.pdf");
+                new FileChooser.ExtensionFilter("PDF files ", "*.pdf");
         fileChooser.getExtensionFilters().add(extFilter);
 
         // Show open file dialog

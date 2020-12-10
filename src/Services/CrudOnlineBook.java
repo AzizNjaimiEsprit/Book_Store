@@ -17,12 +17,12 @@ public class CrudOnlineBook {
     //*********************Ajout livre en ligne *****************************
     public int AjouterLivreEnLigne(OnlineBook o) {
         int x = cb.AjouterLivre(o);
-        System.out.println("inserted id ="+x);
-        if(x==-9)return -9;
+        System.out.println("inserted id =" + x);
+        if (x == -9) return -9;
         try {
 
             PreparedStatement ps = cnn.prepareStatement("INSERT INTO ONLINE_BOOK VALUES (?,?)");
-            ps.setInt(1,x);
+            ps.setInt(1, x);
             ps.setString(2, o.getUrl());
             ps.executeUpdate();
 
@@ -57,8 +57,8 @@ public class CrudOnlineBook {
 
     //*********************Recuperation livre en ligne *****************************
     public OnlineBook RecupererLivreEnLigne(OnlineBook o) {
-        OnlineBook b =(OnlineBook) cb.RecupererLivre(o);
-
+        OnlineBook b = (OnlineBook) cb.RecupererLivre(o);
+        if (b == null) return null;
         try {
             String req = "SELECT url from ONLINE_BOOK join BOOK b on ONLINE_BOOK.id = b.id WHERE b.id=" + o.getId();
             PreparedStatement ps = cnn.prepareStatement(req);
@@ -69,24 +69,22 @@ public class CrudOnlineBook {
                         b.getQuantity(),b.getStatus(),b.getCategory(),b.getImage(),b.getNbPage(),b.getAuthors(), res.getString("url"));*/ {
                 b.setUrl(res.getString("url"));
                 return b;
-            }
-            else System.out.println("online book not found");
+            } else System.out.println("online book not found");
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage()); }
-        return null ;
+            System.out.println(ex.getMessage());
+        }
+        return null;
     }
 
-    public OnlineBook RecupererLivreEnLigneByid(int id ) {
-        OnlineBook  OB = null;
-
+    public OnlineBook RecupererLivreEnLigneByid(int id) {
+        OnlineBook OB = null;
         try {
-            String req = "SELECT c.* , b.*, url from ONLINE_BOOK join BOOK b on ONLINE_BOOK.id = b.id join CATEGORY c on b.category_id = c.id WHERE b.id="+id;
+            String req = "SELECT c.* , b.*, url from ONLINE_BOOK join BOOK b on ONLINE_BOOK.id = b.id join CATEGORY c on b.category_id = c.id WHERE b.id=" + id;
             PreparedStatement ps = cnn.prepareStatement(req);
             ResultSet res = ps.executeQuery();
 
-            while (res.next())
-            {
-                OB= new OnlineBook(res.getInt("b.id"),
+            while (res.next()) {
+                OB = new OnlineBook(res.getInt("b.id"),
                         res.getString("title"),
                         res.getFloat("price"),
                         res.getString("pub_house"),
@@ -98,13 +96,14 @@ public class CrudOnlineBook {
                         res.getString("image"),
                         res.getInt("nb_page"),
                         res.getString("author"),
-                        res.getString("url"));}
+                        res.getString("url"));
+            }
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage()); }
+            System.out.println(ex.getMessage());
+        }
 
         return OB;
     }
-
 
 
     public ArrayList<OnlineBook> RecupererListLivreEnLigne() {
@@ -115,8 +114,7 @@ public class CrudOnlineBook {
             PreparedStatement ps = cnn.prepareStatement(req);
             ResultSet res = ps.executeQuery();
 
-            while (res.next())
-            {
+            while (res.next()) {
                 LOlivre.add(new OnlineBook(res.getInt("b.id"),
                         res.getString("title"),
                         res.getFloat("price"),
@@ -128,27 +126,27 @@ public class CrudOnlineBook {
                         new Category(res.getInt("c.id"), res.getString("name")),
                         res.getString("image"),
                         res.getInt("nb_page"),
-                                res.getString("author"),
-                        res.getString("url")));}
+                        res.getString("author"),
+                        res.getString("url")));
+            }
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage()); }
+            System.out.println(ex.getMessage());
+        }
         return LOlivre;
     }
 
-    public int RecupererQuantitéLivre(OnlineBook b) {
-        if (b.equals(RecupererLivreEnLigne(b))) {
-            try {
-                PreparedStatement preparedStat = cnn.prepareStatement(" SELECT quantity From BOOK  WHERE id=" + b.getId());
-                ResultSet res = preparedStat.executeQuery();
-                while (res.next())
-                    return res.getInt("quantity");
-                System.out.println("La quantité du livre " + b.getId() + "est modifier ");
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        } else {
-            System.out.println("le livre n'existe pas ");
+    public boolean checkOnline(int bookid) {
+
+        try {
+            PreparedStatement preparedStat = cnn.prepareStatement(" SELECT * From ONLINE_BOOK  WHERE id=" + bookid);
+            ResultSet res = preparedStat.executeQuery();
+            if (res.next())
+                return true;
+            else
+                return false;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
-        return -1;
+        return false;
     }
 }

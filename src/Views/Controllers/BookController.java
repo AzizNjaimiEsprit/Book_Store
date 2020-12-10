@@ -1,20 +1,22 @@
 package Views.Controllers;
 
-import Beans.Comment;
-import Beans.OnlineBook;
-import Beans.Rate;
-import Services.CrudComment;
-import Services.CrudRate;
+import Beans.*;
+import Dao.DaoLibrary;
+import Services.*;
 import Utility.Global;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,10 +31,14 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class BookController extends MenuBarController implements Initializable {
+    @FXML
+    private MenuBar menuBar;
     CrudComment cc = new CrudComment();
     CrudRate cr = new CrudRate();
-    private OnlineBook toshow = null;
-    OnlineBook b = new OnlineBook();
+    private Book toshow = null;
+    ServicesWishList servicesWishList = new ServicesWishList();
+    ServicesBasket servicesBasket = new ServicesBasket();
+    Book b = new Book();
     Image starImageFull = new Image("file:src/Views/Resources/images/full.png");
 
     @FXML
@@ -94,6 +100,9 @@ public class BookController extends MenuBarController implements Initializable {
     @FXML
     private ImageView etoile4;
 
+
+
+
     ArrayList<ImageView> stars = new ArrayList<>();
     boolean rateFlag = true;
 
@@ -104,17 +113,23 @@ public class BookController extends MenuBarController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        stars.add(etoile1);stars.add(etoile2);stars.add(etoile3);stars.add(etoile4);stars.add(etoile5);
+        initMenuBar(menuBar);
+        stars.add(etoile1);
+        stars.add(etoile2);
+        stars.add(etoile3);
+        stars.add(etoile4);
+        stars.add(etoile5);
         comment.setCellValueFactory(new PropertyValueFactory("text"));
         username.setCellValueFactory(new PropertyValueFactory("userFullName"));
+        CrudOnlineBook crudOnlineBook = new CrudOnlineBook();
 
     }
 
 
-    public void init(OnlineBook b) {
+    public void init(Book b) {
         commentList = FXCollections.observableArrayList(cc.RecupererListComment(b));
         commentableview.setItems(commentList);
-        Image image = new Image("file:///C:/wamp64/www/BookStore/BooksImage/"+b.getId()+".jpg");
+        Image image = new Image("file:///C:/wamp64/www/BookStore/BooksImage/" + b.getId() + ".jpg");
         bookimage.setImage(image);
         title.setText(b.getTitle());
         author.setText(b.getAuthors());
@@ -126,9 +141,8 @@ public class BookController extends MenuBarController implements Initializable {
         priceonlinebook.setText(String.valueOf(b.getPrice() - b.getPrice() * 0.75));
         moyrate.setText(String.valueOf(cr.getMoyRates(b)));
         Rate rate = cr.RecupererRate(new Rate(0, b, Global.getCurrentUser(), 0));
-        if (rate!=null)
-        {
-            rateFlag=false;
+        if (rate != null) {
+            rateFlag = false;
             setStarImages(rate.getRate());
         }
 
@@ -145,41 +159,20 @@ public class BookController extends MenuBarController implements Initializable {
         cc.AjouterCommentaire(c);
         commentList = FXCollections.observableArrayList(cc.RecupererListComment(toshow));
         commentableview.setItems(commentList);
-        JOptionPane.showMessageDialog(null,"Thank you for your comment");
+        JOptionPane.showMessageDialog(null, "Thank you for your comment");
         txtcomment.clear();
 
     }
 
-    public void goToWishlist(ActionEvent actionEvent) {/*
-        try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Interfaces/Wishlist.fxml"));
-            Global.getPrimaryStage().setWidth(getWidth("Wishlist"));
-            Global.getPrimaryStage().setHeight(getHeight("Wishlist"));
-            Parent root = loader.load();
-            booktable.getScene().setRoot(root);
-            BookController bookController = loader.getController();
-            bookController.setToshow(booktable.getSelectionModel().getSelectedItem());
-
-        }catch (IOException ex)
-        {
-            System.out.println(ex.getMessage());
-        }*/
+    public void goToWishlist(ActionEvent actionEvent) {
+        WishList wishList = new WishList(Global.getCurrentUser(), toshow);
+        servicesWishList.ajouter(wishList);
+        redirect("InterfaceWishList");
     }
 
     public void goToCard(ActionEvent actionEvent) {
-     /*   try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Interfaces/Book.fxml"));
-            Global.getPrimaryStage().setWidth(getWidth("Book"));
-            Global.getPrimaryStage().setHeight(getHeight("Book"));
-            Parent root = loader.load();
-            booktable.getScene().setRoot(root);
-            BookController bookController = loader.getController();
-            bookController.setToshow(booktable.getSelectionModel().getSelectedItem());
-
-        }catch (IOException ex)
-        {
-            System.out.println(ex.getMessage());
-        }*/
+        servicesBasket.ajouter(new Basket(Global.getCurrentUser(), toshow, 1));
+        redirect("InterfaceBasket");
     }
     //Image image = new Image("../Resources/images/full.png");
 
@@ -189,7 +182,7 @@ public class BookController extends MenuBarController implements Initializable {
         cr.AjouterRate(rate);
         ratenote.setText("1");
         setStarImages(1);
-        JOptionPane.showMessageDialog(null,"Thank you for your review ");
+        JOptionPane.showMessageDialog(null, "Thank you for your review ");
 
     }
 
@@ -199,7 +192,7 @@ public class BookController extends MenuBarController implements Initializable {
         cr.AjouterRate(rate);
         ratenote.setText("2");
         setStarImages(2);
-        JOptionPane.showMessageDialog(null,"Thank you for your review ");
+        JOptionPane.showMessageDialog(null, "Thank you for your review ");
 
     }
 
@@ -209,7 +202,7 @@ public class BookController extends MenuBarController implements Initializable {
         cr.AjouterRate(rate);
         ratenote.setText("3");
         setStarImages(3);
-        JOptionPane.showMessageDialog(null,"Thank you for your review ");
+        JOptionPane.showMessageDialog(null, "Thank you for your review ");
 
     }
 
@@ -219,7 +212,7 @@ public class BookController extends MenuBarController implements Initializable {
         cr.AjouterRate(rate);
         ratenote.setText("4");
         setStarImages(4);
-        JOptionPane.showMessageDialog(null,"Thank you for your review ");
+        JOptionPane.showMessageDialog(null, "Thank you for your review ");
 
     }
 
@@ -229,16 +222,17 @@ public class BookController extends MenuBarController implements Initializable {
         cr.AjouterRate(rate);
         ratenote.setText("5");
         setStarImages(5);
-        JOptionPane.showMessageDialog(null,"Thank you for your review ");
+        JOptionPane.showMessageDialog(null, "Thank you for your review ");
 
     }
-    public void setStarImages(int x){
+
+    public void setStarImages(int x) {
         rateFlag = false;
-        for (int i=0;i<x;i++)
+        for (int i = 0; i < x; i++)
             stars.get(i).setImage(starImageFull);
     }
 
-    public void setToshow(OnlineBook toshow) {
+    public void setToshow(Book toshow) {
         System.out.println(toshow);
         this.toshow = toshow;
         b.setId(toshow.getId());
@@ -246,12 +240,38 @@ public class BookController extends MenuBarController implements Initializable {
     }
 
     public void TSdownload(MouseEvent mouseEvent) {
-       File file = new File( "C:/wamp64/www/BookStore/BookTechnicalSheet/"+b.getId()+".pdf");
+        File file = new File("C:/wamp64/www/BookStore/BookTechnicalSheet/" + b.getId() + ".pdf");
         try {
             Desktop.getDesktop().open(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public void buyBookOnline(MouseEvent mouseEvent) {
+        DaoLibraryImp daoLibraryImp =  new DaoLibraryImp();
+        CrudOnlineBook crudOnlineBook = new CrudOnlineBook();
+        if (crudOnlineBook.checkOnline(toshow.getId()) == false){
+            JOptionPane.showMessageDialog(null,"The online version of this book is available");
+            return;
+        }
+        if (daoLibraryImp.getLibraryitem(new Library(Global.getCurrentUser(),crudOnlineBook.RecupererLivreEnLigneByid(toshow.getId()))) != null){
+            JOptionPane.showMessageDialog(null,"This book already exist in your library");
+            return;
+        }
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Interfaces/PaymentOnlineBook.fxml"));
+            Global.getPrimaryStage().setWidth(getWidth("PaymentOnlineBook"));
+            Global.getPrimaryStage().setHeight(getHeight("PaymentOnlineBook"));
+            Parent root = loader.load();
+            txtcomment.getScene().setRoot(root);
+            PaymentControllerOnlineBook bookController = loader.getController();
+            bookController.setToBuy(crudOnlineBook.RecupererLivreEnLigneByid(toshow.getId()));
+
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }
