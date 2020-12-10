@@ -1,10 +1,26 @@
 package Utility;
 
 public interface Credentials {
-    String host = "bl0ne6dzuxgeguzrjivj-mysql.services.clever-cloud.com";
-    String dbname ="bl0ne6dzuxgeguzrjivj";
-    String url ="jdbc:mysql;//"+host+":3306/"+dbname;
-    String user ="urtaylpqbf6raugc";
-    String passws ="DTon5jDCKqlCCdaqMsH4";
-    String sgbd_name ="My sql";
+    //Email Credentials 
+    String from = "bookstore.cm.esprit@gmail.com";
+    String password = "bookstore1234";
+    // Nexmo Api Credentials 
+    String nexmo_apiKey = "b17813bb";
+    String nexmo_apiSecret = "D6YjaxTfSEBiIuph";
+
+    // Database Credentials
+    String host = "bvuadnkmwdnnubgw2znc-mysql.services.clever-cloud.com";
+    String dbname = "bvuadnkmwdnnubgw2znc";
+    String url = "jdbc:mysql://" + host + ":3306/" + dbname;
+    String user = "uht857ug6jqpcs7x";
+    String passws = "gsqi5Ws8hjNzYgEX5Qfg";
+    String sgbd_name = "MySQL";
+    String driver = "com.mysql.jdbc.Driver";
+//    String host = "brbrcv3yusbod6uggq90-mysql.services.clever-cloud.com";
+//    String dbname ="brbrcv3yusbod6uggq90";
+//    String url ="jdbc:mysql://"+host+":3306/"+dbname;
+//    String user ="ufwcrzhlecbvqmn5";
+//    String passws ="lFBBoU6swhBLissd766v";
+//    String sgbd_name ="MySQL";
+//    String driver = "com.mysql.jdbc.Driver";
 }
