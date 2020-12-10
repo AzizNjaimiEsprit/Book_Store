@@ -1,9 +1,6 @@
 package Views.Controllers;
 
-import Main.test1;
-import Services.userService;
-import javafx.application.Application;
-import javafx.application.HostServices;
+import Services.UserService;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -13,14 +10,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import Beans.*;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class VerificationCodeController implements Initializable {
+
     public Button validate_btn;
     public TextField verifcode_field;
     public Hyperlink hyper;
@@ -30,19 +26,19 @@ public class VerificationCodeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         hyper.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                test1.host.showDocument("https://gmail.com");
+                //test1.host.showDocument("https://gmail.com");
             }
         });
     }
 
     public void ValidateAction(ActionEvent actionEvent) throws IOException {
-        userService us = new userService();
-        int c=us.getId(LoginController.k);
-        System.out.println(c);
-        if(c!=0&&LoginController.k!=null) {
+        UserService us = new UserService();
+        int c = us.getId(LoginController.k);
+        if (c != 0 && LoginController.k != null) {
             us.VerifAccountUser(c, verifcode_field.getText());
             Parent fxml;
             fxml = FXMLLoader.load(getClass().getResource("/Views/Interfaces/login.fxml"));

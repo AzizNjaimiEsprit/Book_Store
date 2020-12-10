@@ -1,20 +1,26 @@
-package Views.Controllers;;
+package Views.Controllers;
 
-import Services.userService;
+import Services.UserService;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import Beans.*;
 import javafx.scene.layout.AnchorPane;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ForgotPasswordController implements Initializable {
+;
+
+public class ForgotPasswordController extends MenuBarController implements Initializable {
+    @FXML
+    private MenuBar menuBar;
     public TextField code_field;
     public PasswordField password_field;
     public PasswordField Rpassword_field;
@@ -24,11 +30,12 @@ public class ForgotPasswordController implements Initializable {
     public Button back_btn;
     public AnchorPane forgotpane;
     public Button valid;
-    int ran=0;
-    int idd=0;
+    int ran = 0;
+    int idd = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //initMenuBar(menuBar);
         password_field.setVisible(false);
         Rpassword_field.setVisible(false);
         update_btn.setVisible(false);
@@ -39,9 +46,9 @@ public class ForgotPasswordController implements Initializable {
     }
 
     public void UpdateAction(ActionEvent actionEvent) throws IOException {
-        userService us = new userService();
-        if(password_field.getText().equals(Rpassword_field.getText())) {
-            us.UpdateRestPassword(ran, password_field.getText(),idd);
+        UserService us = new UserService();
+        if (password_field.getText().equals(Rpassword_field.getText())) {
+            us.UpdateRestPassword(ran, password_field.getText(), idd);
             Parent fxml;
             fxml = FXMLLoader.load(getClass().getResource("/Views/Interfaces/login.fxml"));
             forgotpane.getChildren().removeAll();
@@ -52,16 +59,16 @@ public class ForgotPasswordController implements Initializable {
     public void SendAction(ActionEvent actionEvent) {
 
     }
-    public void Code(){
+
+    public void Code() {
         code_field.textProperty().addListener((observable, oldValue, newValue) -> {
-    if(Integer.parseInt(newValue)==userService.coderest)
-    {
-        password_field.setVisible(true);
-        Rpassword_field.setVisible(true);
-        update_btn.setVisible(true);
-        code_field.setDisable(true);
-        ran=Integer.parseInt(newValue);
-    }
+            if (Integer.parseInt(newValue) == UserService.coderest) {
+                password_field.setVisible(true);
+                Rpassword_field.setVisible(true);
+                update_btn.setVisible(true);
+                code_field.setDisable(true);
+                ran = Integer.parseInt(newValue);
+            }
         });
     }
 
@@ -73,8 +80,8 @@ public class ForgotPasswordController implements Initializable {
     }
 
     public void ValideAction(ActionEvent actionEvent) {
-        userService us = new userService();
-        idd=us.RestPassword(email_field.getText());
+        UserService us = new UserService();
+        idd = us.RestPassword(email_field.getText());
         update_btn.setVisible(false);
         email_field.setDisable(true);
         code_field.setVisible(true);

@@ -1,29 +1,30 @@
 package Views.Controllers;
 
-import Main.test1;
-import Services.userService;
+import Beans.Client;
+import Beans.User;
+import Services.UserService;
+import Utility.Global;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import Beans.*;
-import Utility.*;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import Utility.Global;
-
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
+public class LoginController extends MenuBarController implements Initializable {
+
 
     public AnchorPane login;
     public Button login_btn;
@@ -33,14 +34,15 @@ public class LoginController implements Initializable {
     public Button back_btn;
     public Button back_btn11;
     public Button back_btn1;
-    
-    public static String k=null;
+
+    public static String k = null;
     public PasswordField password_field;
     public AnchorPane loginPane;
-    userService us = new userService();
+    UserService us = new UserService();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         RegisterBtn();
         ForgotBtn();
         log();
@@ -81,43 +83,39 @@ public class LoginController implements Initializable {
     }
 
     public void LoginAction(ActionEvent actionEvent) throws IOException, SQLException {
-       // System.out.println(us.LoginIsClient(login_field.getText(),password_field.getText()));
-       // System.out.println("password val :  "+password_field.getText());
-        if(us.exist(login_field.getText(),password_field.getText())){
-        if (us.isVerified(login_field.getText(),password_field.getText())) {
-            User loginUser=us.LoginUser(login_field.getText(),password_field.getText());
-            Global.setCurrentUser(loginUser);
-            if (loginUser!=null) {
-                if (loginUser instanceof Client) {
-                    ChangeInterface("/Views/Interfaces/ClientMenu.fxml","BookStore Client Interface");
+        // System.out.println(us.LoginIsClient(login_field.getText(),password_field.getText()));
+        // System.out.println("password val :  "+password_field.getText());
+        if (us.exist(login_field.getText(), password_field.getText())) {
+            if (us.isVerified(login_field.getText(), password_field.getText())) {
+                User loginUser = us.LoginUser(login_field.getText(), password_field.getText());
+                Global.setCurrentUser(loginUser);
+                if (loginUser != null) {
+                    if (loginUser instanceof Client) {
+                        redirect("HomeByAziz");
+                    }
+                        //ChangeInterface("/Views/Interfaces/ClientMenu.fxml","BookStore Client Interface");
+//                    } else if (loginUser instanceof User) {
+//                        ChangeInterface("/Views/Interfaces/AdminMenu.fxml", "BookStore Admin Interface");
+//                    }
+                } else {
+                    System.out.println("error");
+                    afficherAlert("Check your field", Alert.AlertType.ERROR);
                 }
-                else if(loginUser instanceof User) {
-                    ChangeInterface("/Views/Interfaces/AdminMenu.fxml","BookStore Admin Interface");
-                }
+            } else {
+                k = login_field.getText();
+                Parent fxml;
+                fxml = FXMLLoader.load(getClass().getResource("/Views/Interfaces/VerificationCode.fxml"));
+                login.getChildren().removeAll();
+                login.getChildren().setAll(fxml);
             }
-            else
-            {
-                System.out.println("error");
-                afficherAlert("Check your field", Alert.AlertType.ERROR);
-            }
-        }
-        else {
-            k=login_field.getText();
-            Parent fxml;
-            fxml = FXMLLoader.load(getClass().getResource("/Views/Interfaces/VerificationCode.fxml"));
-            login.getChildren().removeAll();
-            login.getChildren().setAll(fxml);
-        }
-        }
-        else
-        {
+        } else {
             System.out.println("error");
             afficherAlert("Not Exist", Alert.AlertType.ERROR);
         }
 
     }
 
-    public void ChangeInterface(String To,String Title) throws IOException {
+    public void ChangeInterface(String To, String Title) throws IOException {
         Stage stageq = (Stage) login.getScene().getWindow();
         stageq.close();
         FXMLLoader loader = new FXMLLoader();
@@ -130,6 +128,7 @@ public class LoginController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
     public void afficherAlert(String message, Alert.AlertType t) {
         Alert alert = new Alert(t);
         alert.setTitle("Information Dialog");
@@ -137,39 +136,34 @@ public class LoginController implements Initializable {
         alert.setContentText(message);
         alert.show();
     }
+
     public void log() {
         password_field.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    if(us.exist(login_field.getText(),password_field.getText())){
-                        if (us.isVerified(login_field.getText(),password_field.getText())) {
-                            User loginUser=us.LoginUser(login_field.getText(),password_field.getText());
+                    if (us.exist(login_field.getText(), password_field.getText())) {
+                        if (us.isVerified(login_field.getText(), password_field.getText())) {
+                            User loginUser = us.LoginUser(login_field.getText(), password_field.getText());
                             Global.setCurrentUser(loginUser);
-                            if (loginUser!=null) {
+                            if (loginUser != null) {
                                 if (loginUser instanceof Client) {
-                                    ChangeInterface("/Views/Interfaces/ClientMenu.fxml","BookStore Client Interface");
+                                    ChangeInterface("/Views/Interfaces/ClientMenu.fxml", "BookStore Client Interface");
+                                } else if (loginUser instanceof User) {
+                                    ChangeInterface("/Views/Interfaces/AdminMenu.fxml", "BookStore Admin Interface");
                                 }
-                                else if(loginUser instanceof User) {
-                                    ChangeInterface("/Views/Interfaces/AdminMenu.fxml","BookStore Admin Interface");
-                                }
-                            }
-                            else
-                            {
+                            } else {
                                 System.out.println("error");
                                 afficherAlert("Check your field", Alert.AlertType.ERROR);
                             }
-                        }
-                        else {
-                            k=login_field.getText();
+                        } else {
+                            k = login_field.getText();
                             Parent fxml;
                             fxml = FXMLLoader.load(getClass().getResource("/Views/Interfaces/VerificationCode.fxml"));
                             login.getChildren().removeAll();
                             login.getChildren().setAll(fxml);
                         }
-                    }
-                    else
-                    {
+                    } else {
                         System.out.println("error");
                         afficherAlert("Not Exist", Alert.AlertType.ERROR);
                     }
@@ -185,26 +179,26 @@ public class LoginController implements Initializable {
     public void BackAction(ActionEvent actionEvent) throws IOException {
 
 
-        back_btn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                test1.host.showDocument("https://www.facebook.com/nounou.abbes2/");
-            }
-        });
-
-        back_btn11.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                test1.host.showDocument("https://www.instagram.com/nourhene.abbess/");
-            }
-        });
-
-        back_btn1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                test1.host.showDocument("https://twitter.com/");
-            }
-        });
+//        back_btn.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                Main.host.showDocument("https://www.facebook.com/nounou.abbes2/");
+//            }
+//        });
+//
+//        back_btn11.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                test1.host.showDocument("https://www.instagram.com/nourhene.abbess/");
+//            }
+//        });
+//
+//        back_btn1.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                test1.host.showDocument("https://twitter.com/");
+//            }
+//        });
 
 
     }

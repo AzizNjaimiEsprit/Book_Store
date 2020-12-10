@@ -1,18 +1,42 @@
 package Beans;
 
-public class User {
+import java.util.Objects;
 
+public class User {
     private int id;
     private String fullName;
     private String email;
     private String telephone;
     private String login;
     private String password;
-    private int role=0;
+    private int role = 0;
     private String verificationCode;
-    public static User user=null;
 
-    public User(){};
+
+    public User(int id, String fullName, String email) {
+        this.id = id;
+        this.fullName = fullName;
+        this.email = email;
+    }
+
+    public User(int id, String fullName, String email, String telephone, String login, String password) {
+        this.id = id;
+        this.fullName = fullName;
+        this.email = email;
+        this.telephone = telephone;
+        this.login = login;
+        this.password = password;
+    }
+
+    public User(String fullName, String email, String telephone, String login, String password, int role) {
+        this.fullName = fullName;
+        this.email = email;
+        this.telephone = telephone;
+        this.login = login;
+        this.password = password;
+        this.role = role;
+    }
+
     public User(int id, String fullName, String email, String telephone, String login, String password, int role) {
         this.id = id;
         this.fullName = fullName;
@@ -21,46 +45,16 @@ public class User {
         this.login = login;
         this.password = password;
         this.role = role;
-
-    }
-    public User(int id, String fullName, String email, String telephone, String login, String password) {
-        this.id = id;
-        this.fullName = fullName;
-        this.email = email;
-        this.telephone = telephone;
-        this.login = login;
-        this.password = password;
-
-    }
-    public User(int id, String fullName, String email, String telephone, String login, String password, int role,String verificationCode) {
-        this.id = id;
-        this.fullName = fullName;
-        this.email = email;
-        this.telephone = telephone;
-        this.login = login;
-        this.password = password;
-        this.role = role;
-        this.verificationCode=verificationCode;
-    }
-    public User(int id, String fullName, String email, String telephone, String login, String password,String verificationCode) {
-        this.id = id;
-        this.fullName = fullName;
-        this.email = email;
-        this.telephone = telephone;
-        this.login = login;
-        this.password = password;
-        this.verificationCode=verificationCode;
     }
 
-    public User( String fullName, String email, String telephone, String login, String password, int role) {
-        this.fullName = fullName;
-        this.email = email;
-        this.telephone = telephone;
-        this.login = login;
-        this.password = password;
-        this.role = role;
+    public User(int id) {
+        this.id = id;
     }
-    public User( String fullName, String email, String telephone, String login, String password) {
+
+    public User() {
+    }
+
+    public User(String fullName, String email, String telephone, String login, String password) {
         this.fullName = fullName;
         this.email = email;
         this.telephone = telephone;
@@ -134,6 +128,22 @@ public class User {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                role == user.role &&
+
+                Objects.equals(fullName, user.fullName) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(telephone, user.telephone) &&
+                Objects.equals(login, user.login) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(verificationCode, user.verificationCode);
+    }
+
 
     @Override
     public String toString() {
@@ -146,6 +156,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 ", verificationCode='" + verificationCode + '\'' +
+
                 '}';
     }
 }
