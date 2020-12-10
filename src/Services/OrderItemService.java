@@ -1,9 +1,9 @@
 package Services;
 
 
-import Beans.Book;
-import Beans.Order;
-import Beans.OrderItem;
+import Beans.*;
+import Dao.IService;
+import Utility.Global;
 import Utility.Singleton;
 
 import java.sql.Connection;
@@ -12,13 +12,15 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
- *
- * @author  Njaimi Med Aziz
+ * @author Njaimi Med Aziz
  */
 
 public class OrderItemService implements IService<OrderItem> {
     private Connection con = Singleton.getConn();
-
+    private ReptureStock reptureStock = new ReptureStock();
+    private CrudBook crudBook = new CrudBook();
+    private CrudOnlineBook crudOnlineBook = new CrudOnlineBook();
+    private DaoLibraryImp serviceLibrary = new DaoLibraryImp();
 
     /******************************************** Interface Implementation **********************************************/
     @Override
@@ -30,7 +32,12 @@ public class OrderItemService implements IService<OrderItem> {
             preparedStmt.setInt(3, item.getQuantity());
             preparedStmt.execute();
             System.out.println("Item Inseré Avec Succes");
-            //crudBook.updateQuantity(bookid,amount);
+            crudBook.ModifierQuantitéLivre(item.getBook(), item.getQuantity() * -1);
+            reptureStock.verificationStock(item.getBook());
+            if (crudOnlineBook.RecupererLivreEnLigneByid(item.getBook().getId()) != null){
+                OnlineBook onlineBook = new OnlineBook(item.getBook().getId());
+                serviceLibrary.addToLibrary(new Library(Global.getCurrentUser(),onlineBook,null,0,0));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -39,10 +46,12 @@ public class OrderItemService implements IService<OrderItem> {
     @Override
     public void update(OrderItem item) {
         try {
+            OrderItem before = get(item.getId());
             PreparedStatement preparedStmt = con.prepareStatement("update ORDER_ITEM set quantity=? where id=?");
             preparedStmt.setInt(1, item.getQuantity());
             preparedStmt.setInt(2, item.getId());
             preparedStmt.execute();
+            crudBook.ModifierQuantitéLivre(item.getBook(), before.getQuantity()- item.getQuantity());
             System.out.println("Item Modifié Avec Succes");
         } catch (Exception e) {
             System.err.println(e.getMessage());

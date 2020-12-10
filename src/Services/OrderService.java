@@ -1,10 +1,13 @@
-
 package Services;
 
-import Beans.*;
-
+import Beans.Order;
+import Beans.User;
+import Dao.IService;
 import Utility.Global;
 import Utility.Singleton;
+import api.MailingService;
+import api.PaymentService;
+import api.SMS_Service;
 import com.stripe.model.Customer;
 
 import java.sql.Connection;
@@ -15,8 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- *
- * @author  Njaimi Med Aziz
+ * @author Njaimi Med Aziz
  */
 
 public class OrderService implements IService<Order> {
@@ -45,7 +47,7 @@ public class OrderService implements IService<Order> {
         }
 
         try {
-            PreparedStatement preparedStmt = con.prepareStatement("insert into orders values (NULL,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStmt = con.prepareStatement("insert into ORDERS values (NULL,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             preparedStmt.setInt(1, order.getUser().getId());
             preparedStmt.setFloat(2, order.getTotalPrice());
             preparedStmt.setString(3, order.getPaymentID());
@@ -81,7 +83,7 @@ public class OrderService implements IService<Order> {
     @Override
     public void update(Order order) {
         try {
-            String sql = "update orders set total_price=?,address=?,zipcode=?,numTel=?,status=? where id=?";
+            String sql = "update ORDERS set total_price=?,address=?,zipcode=?,numTel=?,status=? where id=?";
             PreparedStatement preparedStmt = con.prepareStatement(sql);
             preparedStmt.setFloat(1, order.getTotalPrice());
             preparedStmt.setString(2, order.getAddress());
@@ -109,7 +111,7 @@ public class OrderService implements IService<Order> {
         Order order = null;
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM orders where id=" + orderid);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM ORDERS where id=" + orderid);
             if (rs.next()) {
                 int id = rs.getInt("id");
                 User userId = new User(rs.getInt("user_id"));
@@ -129,9 +131,10 @@ public class OrderService implements IService<Order> {
         }
         return order;
     }
+
     @Override
     public ArrayList<Order> get() {
-        return getOrders("","","");
+        return getOrders("", "", "");
     }
 
     /***************************************************************************************************/
@@ -139,7 +142,7 @@ public class OrderService implements IService<Order> {
 
     public void editOrderStatus(Order order) {
         try {
-            String sql = "update orders set status=? where id=?";
+            String sql = "update ORDERS set status=? where id=?";
             PreparedStatement preparedStmt = con.prepareStatement(sql);
             preparedStmt.setInt(2, order.getId());
             preparedStmt.setString(1, order.getStatus());
@@ -153,11 +156,11 @@ public class OrderService implements IService<Order> {
     public ArrayList<Order> getOrders(String etat, String sdate, String edate) {
         ArrayList<Order> res = new ArrayList<Order>();
         Order order = null;
-        String sql = sql = "SELECT O.*,full_name FROM orders O join USER U on U.id = O.user_id where 1";
+        String sql = sql = "SELECT O.*,full_name FROM ORDERS O join USER U on U.id = O.user_id where 1";
         try {
             Statement stmt = con.createStatement();
-            if (Global.getCurrentUser().getRole()==1)
-                sql += " AND O.user_id = "+Global.getCurrentUser().getId();
+            if (Global.getCurrentUser().getRole() == 1)
+                sql += " AND O.user_id = " + Global.getCurrentUser().getId();
             if (etat != "")
                 sql += " AND status='" + etat + "'";
             if (sdate != "" && edate != "") {
@@ -185,7 +188,6 @@ public class OrderService implements IService<Order> {
         }
         return res;
     }
-
 
 
 }

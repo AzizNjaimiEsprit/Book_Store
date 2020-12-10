@@ -24,6 +24,9 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ClientOrdersListController extends MenuBarController implements Initializable {
+    @FXML
+    private MenuBar menuBar;
+
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-DD");
     ArrayList<String> etats = new ArrayList<>();
     OrderService orderService = new OrderService();
@@ -84,12 +87,13 @@ public class ClientOrdersListController extends MenuBarController implements Ini
     private TableColumn<Order, String> status;
 
     ObservableList<Order> res = FXCollections.observableArrayList(
-            orderService.getOrders("Non Traite","","")
+            orderService.getOrders("Non Traite", "", "")
     );
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initMenuBar(menuBar);
         // Initializing Choice box
         etats.add("All");
         etats.add("Non Traite");
@@ -112,7 +116,7 @@ public class ClientOrdersListController extends MenuBarController implements Ini
 
     @FXML
     public void clickItem(MouseEvent event) {
-        if (order_items.getSelectionModel().getSelectedIndex() == -1)
+        if (table.getSelectionModel().getSelectedIndex() == -1)
             return;
 
         if (event.getClickCount() == 1) //Checking click -> Fetch data into table 2
@@ -126,14 +130,13 @@ public class ClientOrdersListController extends MenuBarController implements Ini
             int index = table.getSelectionModel().getSelectedIndex();
             ObservableList<OrderItem> items = FXCollections.observableArrayList(res.get(index).getItems());
             order_items.setItems(items);
-        }
-        else if (event.getClickCount() == 2){ //Checking click*2 -> Editing Order
-            if (res.get(table.getSelectionModel().getSelectedIndex()).getStatus().equals("Non Traite") == false){
-                JOptionPane.showMessageDialog(null,"Order cannot be modified!!");
+        } else if (event.getClickCount() == 2) { //Checking click*2 -> Editing Order
+            if (res.get(table.getSelectionModel().getSelectedIndex()).getStatus().equals("Non Traite") == false) {
+                JOptionPane.showMessageDialog(null, "Order cannot be modified!!");
                 return;
             }
-            if (couponHistoryService.get(res.get(table.getSelectionModel().getSelectedIndex()).getId(),"REFUND") != null){
-                JOptionPane.showMessageDialog(null,"Order already modifier once!!");
+            if (couponHistoryService.get(res.get(table.getSelectionModel().getSelectedIndex()).getId(), "REFUND") != null) {
+                JOptionPane.showMessageDialog(null, "Order already modifier once!!");
                 return;
             }
             System.out.println("Updating !!!");
@@ -158,12 +161,10 @@ public class ClientOrdersListController extends MenuBarController implements Ini
         if (event.getClickCount() == 1) //Checking click
         {
             String status = status_select.getValue().equals("All") ? "" : status_select.getValue();
-            if (start_date.getValue() != null && end_date.getValue() != null)
-            {
-                res = FXCollections.observableArrayList(orderService.getOrders(status,start_date.getValue().toString(),end_date.getValue().toString()));
-            }
-            else{
-                res = FXCollections.observableArrayList(orderService.getOrders(status,"",""));
+            if (start_date.getValue() != null && end_date.getValue() != null) {
+                res = FXCollections.observableArrayList(orderService.getOrders(status, start_date.getValue().toString(), end_date.getValue().toString()));
+            } else {
+                res = FXCollections.observableArrayList(orderService.getOrders(status, "", ""));
             }
             table.setItems(res);
         }
@@ -178,7 +179,6 @@ public class ClientOrdersListController extends MenuBarController implements Ini
             status_select.getSelectionModel().select(0);
         }
     }
-
 
 
 }
