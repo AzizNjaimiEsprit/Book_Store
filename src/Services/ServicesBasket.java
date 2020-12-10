@@ -1,24 +1,20 @@
 package Services;
 
+import Beans.Basket;
+import Beans.Book;
+import Beans.User;
+import Utility.Global;
+import Utility.Singleton;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-import Beans.Basket;
-import Beans.Book;
-import Beans.Category;
-import Beans.User;
-import Beans.WishList;
-import Utils.DataSource;
-import Utils.Global;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-public class ServicesBasket implements IServiceBasket<Basket> {
-    Connection cnx = DataSource.getInstance().getCnx();
+public class ServicesBasket /*implements IServiceBasket<Basket>*/ {
+    Connection cnx = Singleton.getConn();
     CrudBook cb = new CrudBook();
 
     public void ajouter(Basket b) {
@@ -30,7 +26,7 @@ public class ServicesBasket implements IServiceBasket<Basket> {
             st.setInt(2, b.getBook().getId());
             st.setInt(3, b.getQuantity());
             st.executeUpdate();
-            System.out.println("Basket ajouté!");
+            System.out.println("Basket ajoutï¿½!");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
 
@@ -46,7 +42,7 @@ public class ServicesBasket implements IServiceBasket<Basket> {
             st.setInt(1, b.getUser().getId());
             st.setInt(2, b.getBook().getId());
             st.executeUpdate();
-            System.out.println("Basket supprimé!");
+            System.out.println("Basket supprimï¿½!");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
 
@@ -64,7 +60,7 @@ public class ServicesBasket implements IServiceBasket<Basket> {
             st.setInt(3, b.getBook().getId());
             st.setInt(1, b.getQuantity());
             st.executeUpdate();
-            System.out.println("Panier modifiée!");
+            System.out.println("Panier modifiï¿½e!");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
 
@@ -83,7 +79,7 @@ public class ServicesBasket implements IServiceBasket<Basket> {
                 List.add(new Basket(new User(res.getInt("user_id")), new Book(res.getInt("book_id")), res.getInt("quantity")));
 
             }
-            System.out.println("Basket réccupérée!");
+            System.out.println("Basket rï¿½ccupï¿½rï¿½e!");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
 
@@ -93,33 +89,31 @@ public class ServicesBasket implements IServiceBasket<Basket> {
     }*/
 
 
-            public ObservableList<Basket> getBasketOfUser(int userId){
-                ObservableList<Basket> res= FXCollections.observableArrayList();
-                try{
+    public ObservableList<Basket> getBasketOfUser(int userId) {
+        ObservableList<Basket> res = FXCollections.observableArrayList();
+        try {
 
-                    String req = "Select * FROM BASKET WHERE user_id=? ";
-                    PreparedStatement st = cnx.prepareStatement(req);
-                    st.setInt(1, userId);
-                    ResultSet rs = st.executeQuery();
-                    while (rs.next()){
-                        int quantity = rs.getInt("quantity");
-                        int bookid = rs.getInt("book_id");
-                        Book book = cb.RecupererLivreByID(bookid);
-                        User user= Global.getCurrentUser();
-                        res.add(new Basket(user,book,quantity));
-                    }
-                    rs.close();
-                }
-                catch(Exception e){
-                    System.out.println(e.getMessage());
-                }
-                return res;
-
+            String req = "Select * FROM BASKET WHERE user_id=? ";
+            PreparedStatement st = cnx.prepareStatement(req);
+            st.setInt(1, userId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int quantity = rs.getInt("quantity");
+                int bookid = rs.getInt("book_id");
+                Book book = cb.RecupererLivreByID(bookid);
+                User user = Global.getCurrentUser();
+                res.add(new Basket(user, book, quantity));
             }
-
-
-
+            rs.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
+        return res;
+
+    }
+
+
+}
 
 
 

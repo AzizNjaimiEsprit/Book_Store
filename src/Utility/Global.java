@@ -1,4 +1,4 @@
-package Utulitaire;
+package Utility;
 
 import Beans.User;
 import javafx.stage.Stage;
